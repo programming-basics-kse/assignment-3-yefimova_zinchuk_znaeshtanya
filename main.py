@@ -1,5 +1,7 @@
 import argparse
 
+
+
 def installer(source_file):
     with open(source_file, 'r') as file:
         header = next(file)
@@ -26,3 +28,12 @@ def output(data):
                 if MEDAL != 'NA':
                     medals[MEDAL] += 1
             print(f'Gold:{medals['Gold']}, Silver:{medals['Silver']}, Bronze:{medals['Bronze']}')
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('file', type=str, help='Choose the file')
+parser.add_argument('-medals', help='Medals for a team during the year')
+
+args = parser.parse_args()
+data = installer(args.file)
+output(data)
