@@ -16,20 +16,21 @@ def installer(source_file):
 def output(data):
     medals = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
     count = 0
+    result_1 = ''
     for row in data:
         TEAM = row[6]
         NOC = row[7]
         MEDAL = row[14]
         if row[9] in str(args.medals) and MEDAL != 'NA':
             if TEAM in str(args.medals) or NOC in str(args.medals):
-                result_1 = (f'{row[1]} - {row[12]} - {row[-1]}')
-                print(result_1)
+                result_1 += (f'{row[1]} - {row[12]} - {row[-1]}\n')
                 count += 1
         if TEAM in str(args.medals) or NOC in str(args.medals):
             if MEDAL != 'NA':
                 medals[MEDAL] += 1
         if count == 10:
             break
+    print(result_1)
 
     if TEAM not in str(args.medals) and NOC not in str(args.medals):
         print('Country not found')
