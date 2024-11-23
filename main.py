@@ -28,7 +28,7 @@ def overall(data, country):
         key_list = list(country_medals.keys())
         value_list = list(country_medals.values())
         most_medals_year = key_list[value_list.index(most_medals)]
-        print(f'{country} - {most_medals_year} - {most_medals}')
+        print(f"{country}'s most successful year was {most_medals_year} with {most_medals} medal(s)")
     else:
         print(f'{country} - no medals found/no country found')
 
@@ -37,6 +37,7 @@ def output(data):
     medals = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
     count = 0
     result_1 = ''
+    result_2 = ''
     for row in data:
         TEAM = row[6]
         NOC = row[7]
@@ -53,13 +54,11 @@ def output(data):
     print(result_1)
     if TEAM not in str(args.medals) and NOC not in str(args.medals):
         print('Country not found')
-
-    if row[9] not in str(args.medals):
-        print('No Olympics were held that year')
-
-
-    result_2 = (f'Gold:{medals["Gold"]}, Silver:{medals["Silver"]}, Bronze:{medals["Bronze"]}')
-    print(result_2)
+        if row[9] not in str(args.medals):
+            print('No Olympics were held that year')
+    else:
+        result_2 = (f'Gold:{medals["Gold"]}, Silver:{medals["Silver"]}, Bronze:{medals["Bronze"]}')
+        print(result_2)
 
     return result_1, result_2
 
@@ -88,6 +87,9 @@ def years_sorter(data):
                 if YEAR not in years:
                     years[YEAR] = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
                 years[YEAR][MEDAL] += 1
+            else:
+                print('There is no such country')
+                break
     for year in years:
         medals_sum = sum([years[year]['Gold'], years[year]['Silver'], years[year]['Bronze']])
         sums.append((year, medals_sum))
@@ -145,11 +147,12 @@ parser.add_argument('-interactive', type=str, help = 'see statistics')
 args = parser.parse_args()
 data = installer(args.file)
 
-result_1, result_2 = output(data)
-if args.output:
-    with open (args.output[0], 'w') as file:
-       file.write(result_1)
-       file.write(result_2)
+if args.medals:
+    result_1, result_2 = output(data)
+    if args.output:
+        with open (args.output[0], 'w') as file:
+           file.write(result_1)
+           file.write(result_2)
 
 if args.overall:
     for country in args.overall:
