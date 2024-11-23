@@ -15,7 +15,6 @@ def installer(source_file):
     return data
 
 def overall(data, country):
-
     country_medals = {}
     for row in data:
         YEAR = row[9]
@@ -34,19 +33,14 @@ def overall(data, country):
     else:
         print(f'{country} - no medals found/no country found')
 
-parser = argparse.ArgumentParser()
-parser.add_argument('file', help='files')
-parser.add_argument('-overall', nargs='+', type=str, help='The most successful year for countries input')
-    return data
-
 def output(data):
     medals = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
+    TEAM = row[6]
+    NOC = row[7]
+    MEDAL = row[14]
     count = 0
     result_1 = ''
     for row in data:
-        TEAM = row[6]
-        NOC = row[7]
-        MEDAL = row[14]
         if row[9] in str(args.medals) and MEDAL != 'NA':
             if TEAM in str(args.medals) or NOC in str(args.medals):
                 result_1 += (f'{row[1]} - {row[12]} - {row[-1]}\n')
@@ -65,7 +59,6 @@ def output(data):
         print('No Olympics were held that year')
 
 
-
     result_2 = (f'Gold:{medals["Gold"]}, Silver:{medals["Silver"]}, Bronze:{medals["Bronze"]}')
     print(result_2)
 
@@ -75,11 +68,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('file', type=str, help='Choose the file')
 parser.add_argument('-medals', nargs=2, help='Medals for a team during the year')
 parser.add_argument('-output', nargs=1, help='Writing the output in the file')
+parser.add_argument('-overall', nargs='+', type=str, help='The most successful year for countries input')
 
 args = parser.parse_args()
-
-
-
 data = installer(args.file)
 
 
@@ -89,8 +80,6 @@ if args.output:
        file.write(result_1)
        file.write(result_2)
 
-args = parser.parse_args()
-data = installer(args.file)
 
 if args.overall:
     for country in args.overall:
