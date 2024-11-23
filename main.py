@@ -31,7 +31,7 @@ def overall(data, country):
         print(f'{country} - {most_medals_year} - {most_medals}')
     else:
         print(f'{country} - no medals found/no country found')
-    return result_1, result_2
+
 
 def output(data):
     medals = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
