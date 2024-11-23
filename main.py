@@ -14,6 +14,31 @@ def installer(source_file):
             line = file.readline()
     return data
 
+def overall(data, country):
+
+    country_medals = {}
+    for row in data:
+        YEAR = row[9]
+        COUNTRY = row[6]
+        MEDAL = row[14]
+        if COUNTRY == country and MEDAL != 'NA':
+            if YEAR not in country_medals:
+                country_medals[YEAR] = 0
+            country_medals[YEAR] += 1
+    if country_medals:
+        most_medals = max(country_medals.values())
+        key_list = list(country_medals.keys())
+        value_list = list(country_medals.values())
+        most_medals_year = key_list[value_list.index(most_medals)]
+        print(f'{country} - {most_medals_year} - {most_medals}')
+    else:
+        print(f'{country} - no medals found/no country found')
+
+parser = argparse.ArgumentParser()
+parser.add_argument('file', help='files')
+parser.add_argument('-overall', nargs='+', type=str, help='The most successful year for countries input')
+    return data
+
 def output(data):
     medals = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
     count = 0
@@ -63,3 +88,10 @@ if args.output:
     with open (args.output[0], 'w') as file:
        file.write(result_1)
        file.write(result_2)
+
+args = parser.parse_args()
+data = installer(args.file)
+
+if args.overall:
+    for country in args.overall:
+        overall(data, country)
