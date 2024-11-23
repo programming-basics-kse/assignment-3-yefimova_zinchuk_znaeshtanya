@@ -61,6 +61,8 @@ def output(data):
     result_2 = (f'Gold:{medals["Gold"]}, Silver:{medals["Silver"]}, Bronze:{medals["Bronze"]}')
     print(result_2)
 
+    return result_1, result_2
+
 
 def country_validation(COUNTRY):
     if "-" in COUNTRY:
