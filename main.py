@@ -36,11 +36,11 @@ def overall(data, country):
 def output(data):
     medals = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
     count = 0
+    result_1 = ''
     for row in data:
         TEAM = row[6]
         NOC = row[7]
         MEDAL = row[14]
-        result_1 = ''
         if row[9] in str(args.medals) and MEDAL != 'NA':
             if TEAM in str(args.medals) or NOC in str(args.medals):
                 result_1 += (f'{row[1]} - {row[12]} - {row[-1]}\n')
@@ -145,9 +145,8 @@ parser.add_argument('-interactive', type=str, help = 'see statistics')
 args = parser.parse_args()
 data = installer(args.file)
 
-
+result_1, result_2 = output(data)
 if args.output:
-    result_1, result_2 = output(data)
     with open (args.output[0], 'w') as file:
        file.write(result_1)
        file.write(result_2)
