@@ -31,7 +31,7 @@ def overall(data, country):
         most_medals_year = key_list[value_list.index(most_medals)]
         print(f'{country} - {most_medals_year} - {most_medals}')
     else:
-        print(f'{country} - no medals')
+        print(f'{country} - no medals found/no country found')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('file', help='files')
