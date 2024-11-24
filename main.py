@@ -72,10 +72,24 @@ def country_validation(COUNTRY):
         COUNTRY = new_row[0]
     return COUNTRY
 
+def input_validation(data, country_input):
+    if not country_input.isalpha():
+        return 'invalid input'
+    if country_input not in [row[6].lower() for row in data] and country_input not in [row[7].lower() for row in data]:
+        return 'no country'
+    return country_input
 
-def years_sorter(data):
+
+def years_sorter(data, country_input):
     years = {}
     sums = []
+    country_input = input_validation(data, country_input)
+    if country_input == 'no country':
+        print('Sorry there is no such country')
+        return 'no country'
+    if country_input == 'invalid input':
+        print('Sorry enter valid name')
+        return 'invalid input'
     for row in data:
         COUNTRY = row[6].lower()
         COUNTRY_CODE = row[7].lower()
@@ -87,9 +101,6 @@ def years_sorter(data):
                 if YEAR not in years:
                     years[YEAR] = {'Gold': 0, 'Silver': 0, 'Bronze': 0}
                 years[YEAR][MEDAL] += 1
-            else:
-                print('There is no such country')
-                break
     for year in years:
         medals_sum = sum([years[year]['Gold'], years[year]['Silver'], years[year]['Bronze']])
         sums.append((year, medals_sum))
@@ -98,6 +109,10 @@ def years_sorter(data):
 
 def medals_counter(data):
     countries = {}
+    for year in args.total:
+        if str(year) not in [row[9] for row in data]:
+            print('There were no games this year')
+            return 'no games'
     for row in data:
         #COUNTRY = row[6].lower()
         COUNTRY_CODE = row[7].lower()
@@ -164,12 +179,19 @@ if args.total:
 if args.interactive:
     while True:
         country_input = input('Enter a country or a code ').lower()
+        sums = years_sorter(data, country_input)
+        if sums == 'no country' or sums == 'invalid input':
+            continue
         print('\nSTATISTICS: \n')
-        sums = years_sorter(data)
         first_game(data, country_input)
         most_successful(sums)
         average_medals(sums)
         print('')
-        continue_game = input('Do you wan to continue? ')
-        if continue_game == 'no':
-            break
+        while True:
+            continue_game = input('Do you want to continue? ')
+            if continue_game == 'no':
+                exit()
+            elif continue_game != 'yes' or continue_game == 'no':
+                print("please enter 'yes' or 'no'")
+            else:
+                break
