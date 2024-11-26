@@ -38,25 +38,37 @@ def output(data):
     count = 0
     result_1 = ''
     result_2 = ''
+    year_found = False
+    country_found = False
     for row in data:
         TEAM = row[6]
         NOC = row[7]
         MEDAL = row[14]
-        if row[9] in str(args.medals) and MEDAL != 'NA':
+        YEAR = row[9]
+
+        if YEAR in str(args.medals):
+            year_found = True
             if TEAM in str(args.medals) or NOC in str(args.medals):
-                result_1 += (f'{row[1]} - {row[12]} - {row[-1]}\n')
-                count += 1
+                country_found = True
+                if MEDAL != 'NA':
+                    result_1 += (f'{row[1]} - {row[12]} - {row[-1]}\n')
+                    count += 1
+                if count == 10:
+                    break
+    for row in data:
+        TEAM = row[6]
+        NOC = row[7]
+        MEDAL = row[14]
+        YEAR = row[9]
         if TEAM in str(args.medals) or NOC in str(args.medals):
-            if MEDAL != 'NA':
+            if MEDAL != 'NA' and YEAR in str(args.medals):
                 medals[MEDAL] += 1
-        if count == 10:
-            break
-    print(result_1)
-    if TEAM not in str(args.medals) and NOC not in str(args.medals):
+    if not year_found:
+        print('No Olympics were held that year')
+    elif not country_found:
         print('Country not found')
-        if row[9] not in str(args.medals):
-            print('No Olympics were held that year')
     else:
+        print(result_1)
         result_2 = (f'Gold:{medals["Gold"]}, Silver:{medals["Silver"]}, Bronze:{medals["Bronze"]}')
         print(result_2)
 
