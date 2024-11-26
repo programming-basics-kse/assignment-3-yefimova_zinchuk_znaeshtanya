@@ -63,7 +63,9 @@ def output(data):
         if TEAM in str(args.medals) or NOC in str(args.medals):
             if MEDAL != 'NA' and YEAR in str(args.medals):
                 medals[MEDAL] += 1
-    if not year_found:
+    if not year_found and not country_found:
+        print('Invalid input. No country and year found')
+    elif not year_found:
         print('No Olympics were held that year')
     elif not country_found:
         print('Country not found')
