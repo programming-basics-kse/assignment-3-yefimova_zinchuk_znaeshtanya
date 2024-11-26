@@ -169,8 +169,8 @@ parser.add_argument('file', type=str, help='Choose the file')
 parser.add_argument('-medals',  nargs=2, help='Medals for a team during the year')
 parser.add_argument('-output', nargs=1, help='Writing the output in the file')
 parser.add_argument('-overall', nargs='+', type=str, help='The most successful year for countries input')
-parser.add_argument('-total', nargs = 1, type=int, help = 'count total')
-parser.add_argument('-interactive', type=str, help = 'see statistics')
+parser.add_argument('-total', nargs = 1, type=int, help = 'Number of participants with medals')
+parser.add_argument('-interactive', nargs='*', type=str, help = 'Statistics')
 
 
 args = parser.parse_args()
@@ -202,7 +202,7 @@ if args.interactive:
         average_medals(sums)
         print('')
         while True:
-            continue_game = input('Do you want to continue? ')
+            continue_game = input('Do you want to continue? ').lower()
             if continue_game == 'no':
                 exit()
             elif continue_game != 'yes' or continue_game == 'no':
